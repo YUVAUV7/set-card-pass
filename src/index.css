@@ -2,39 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* SET Card Game Design System - Vibrant, playful, card-focused */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Game Background */
+    --background: 220 15% 8%;
+    --foreground: 210 40% 98%;
 
+    /* Card Design */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* UI Elements */
+    --popover: 220 25% 12%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Game Primary - Vibrant Purple */
+    --primary: 270 91% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 270 91% 75%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Game Secondary - Bright Cyan */
+    --secondary: 190 95% 60%;
+    --secondary-foreground: 220 15% 8%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Game Muted */
+    --muted: 220 25% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Game Accent - Golden Yellow */
+    --accent: 45 100% 60%;
+    --accent-foreground: 220 15% 8%;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Category Colors */
+    --animals: 25 95% 65%;
+    --colors: 315 85% 70%;
+    --fruits: 120 70% 55%;
+    --vehicles: 200 90% 60%;
+
+    /* Game States */
+    --success: 140 70% 55%;
+    --warning: 45 100% 60%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders & Inputs */
+    --border: 220 25% 20%;
+    --input: 220 25% 15%;
+    --ring: 270 91% 65%;
+
+    /* Game Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-background: linear-gradient(180deg, hsl(var(--background)), hsl(220 20% 6%));
+    --gradient-animals: linear-gradient(135deg, hsl(var(--animals)), hsl(25 95% 75%));
+    --gradient-colors: linear-gradient(135deg, hsl(var(--colors)), hsl(315 85% 80%));
+    --gradient-fruits: linear-gradient(135deg, hsl(var(--fruits)), hsl(120 70% 65%));
+
+    /* Shadows & Effects */
+    --shadow-card: 0 4px 20px hsl(var(--primary) / 0.15);
+    --shadow-hover: 0 8px 30px hsl(var(--primary) / 0.25);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
