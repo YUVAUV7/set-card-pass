@@ -11,7 +11,7 @@ interface Category {
   gradient: string;
 }
 
-interface Player {
+interface SetupPlayer {
   id: number;
   name: string;
   selectedItem: string;
@@ -19,7 +19,7 @@ interface Player {
 
 interface GameSetupProps {
   category: Category;
-  onStartGame: (players: Player[]) => void;
+  onStartGame: (players: SetupPlayer[]) => void;
   onBack: () => void;
 }
 
@@ -28,7 +28,7 @@ const GameSetup: React.FC<GameSetupProps> = ({
   onStartGame,
   onBack
 }) => {
-  const [players, setPlayers] = useState<Player[]>([
+  const [players, setPlayers] = useState<SetupPlayer[]>([
     { id: 1, name: '', selectedItem: '' },
     { id: 2, name: '', selectedItem: '' },
     { id: 3, name: '', selectedItem: '' },

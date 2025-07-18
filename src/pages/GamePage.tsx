@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import StartScreen from '@/components/StartScreen';
 import CategorySelection from '@/components/CategorySelection';
 import GameSetup from '@/components/GameSetup';
+import GameBoard from '@/components/GameBoard';
+import { Player } from '@/types/game';
 
 interface Category {
   name: string;
@@ -10,7 +12,7 @@ interface Category {
   gradient: string;
 }
 
-interface Player {
+interface SetupPlayer {
   id: number;
   name: string;
   selectedItem: string;
@@ -21,7 +23,7 @@ type GameScreen = 'start' | 'category' | 'setup' | 'game';
 const GamePage: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<GameScreen>('start');
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<SetupPlayer[]>([]);
 
   const handleStartGame = () => {
     setCurrentScreen('category');
@@ -32,7 +34,7 @@ const GamePage: React.FC = () => {
     setCurrentScreen('setup');
   };
 
-  const handleGameStart = (gamePlayers: Player[]) => {
+  const handleGameStart = (gamePlayers: SetupPlayer[]) => {
     setPlayers(gamePlayers);
     setCurrentScreen('game');
   };
@@ -89,25 +91,18 @@ const GamePage: React.FC = () => {
           />
         ) : null;
       case 'game':
-        return (
-          <div className="min-h-screen bg-gradient-background flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-foreground mb-4">Game Board</h1>
-              <p className="text-muted-foreground">Game implementation coming soon...</p>
-              <div className="mt-8">
-                <h3 className="text-xl font-semibold text-foreground mb-4">Players:</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {players.map((player) => (
-                    <div key={player.id} className="bg-card p-4 rounded-lg border border-border">
-                      <p className="font-semibold text-card-foreground">{player.name}</p>
-                      <p className="text-sm text-muted-foreground">Item: {player.selectedItem}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return selectedCategory ? (
+          <GameBoard
+            category={selectedCategory.name}
+            players={players.map(p => ({ 
+              ...p, 
+              hand: [], 
+              matchingCards: 0, 
+              hasSet: false 
+            }))}
+            onBack={handleBackToStart}
+          />
+        ) : null;
       default:
         return null;
     }
