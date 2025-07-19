@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, BookOpen, Settings, X } from 'lucide-react';
+import { Play, BookOpen, Settings, LogOut, User } from 'lucide-react';
 import setLogo from '@/assets/set-logo.jpg';
+import { useAuth } from '@/hooks/useAuth';
 
 interface StartScreenProps {
   onStartGame: () => void;
@@ -16,6 +17,11 @@ const StartScreen: React.FC<StartScreenProps> = ({
   onShowSettings,
   onExit
 }) => {
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
   return (
     <div className="min-h-screen bg-gradient-background flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto text-center animate-slide-in">
@@ -36,6 +42,12 @@ const StartScreen: React.FC<StartScreenProps> = ({
           <p className="text-muted-foreground text-lg">
             Collect 4 matching cards to win!
           </p>
+          {user && (
+            <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
+              <User className="w-4 h-4" />
+              <span>Welcome, {user.email}</span>
+            </div>
+          )}
         </div>
 
         {/* Menu Buttons */}
@@ -76,12 +88,12 @@ const StartScreen: React.FC<StartScreenProps> = ({
           <Button
             variant="ghost"
             size="lg"
-            onClick={onExit}
+            onClick={handleSignOut}
             className="w-full h-12 animate-bounce-in"
             style={{ animationDelay: '0.4s' }}
           >
-            <X className="w-5 h-5" />
-            Exit
+            <LogOut className="w-5 h-5" />
+            Sign Out
           </Button>
         </div>
 
