@@ -14,6 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
+      game_cards: {
+        Row: {
+          card_id: string
+          created_at: string
+          current_owner_position: number | null
+          game_room_id: string
+          id: string
+          is_dealt: boolean | null
+          item: string
+        }
+        Insert: {
+          card_id: string
+          created_at?: string
+          current_owner_position?: number | null
+          game_room_id: string
+          id?: string
+          is_dealt?: boolean | null
+          item: string
+        }
+        Update: {
+          card_id?: string
+          created_at?: string
+          current_owner_position?: number | null
+          game_room_id?: string
+          id?: string
+          is_dealt?: boolean | null
+          item?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_cards_game_room_id_fkey"
+            columns: ["game_room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          game_room_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          game_room_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          game_room_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_events_game_room_id_fkey"
+            columns: ["game_room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_players: {
+        Row: {
+          chosen_item: string | null
+          created_at: string
+          final_rank: number | null
+          game_room_id: string
+          hand: Json | null
+          has_set: boolean | null
+          id: string
+          is_ready: boolean | null
+          matching_cards: number | null
+          player_position: number
+          user_id: string
+          username: string
+        }
+        Insert: {
+          chosen_item?: string | null
+          created_at?: string
+          final_rank?: number | null
+          game_room_id: string
+          hand?: Json | null
+          has_set?: boolean | null
+          id?: string
+          is_ready?: boolean | null
+          matching_cards?: number | null
+          player_position: number
+          user_id: string
+          username: string
+        }
+        Update: {
+          chosen_item?: string | null
+          created_at?: string
+          final_rank?: number | null
+          game_room_id?: string
+          hand?: Json | null
+          has_set?: boolean | null
+          id?: string
+          is_ready?: boolean | null
+          matching_cards?: number | null
+          player_position?: number
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_players_game_room_id_fkey"
+            columns: ["game_room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_rooms: {
+        Row: {
+          category: string | null
+          created_at: string
+          current_turn: number | null
+          host_user_id: string
+          id: string
+          max_players: number
+          room_code: string
+          status: string
+          turn_deadline: string | null
+          turn_direction: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          current_turn?: number | null
+          host_user_id: string
+          id?: string
+          max_players?: number
+          room_code: string
+          status?: string
+          turn_deadline?: string | null
+          turn_direction?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          current_turn?: number | null
+          host_user_id?: string
+          id?: string
+          max_players?: number
+          room_code?: string
+          status?: string
+          turn_deadline?: string | null
+          turn_direction?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
