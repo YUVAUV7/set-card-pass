@@ -15,7 +15,6 @@ interface GameBoardProps {
 
 const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
   const { gameState, dealCards, passCard, declareSet, resetGame } = useGameLogic(players, category);
-  const [selectedCard, setSelectedCard] = useState<GameCardType | null>(null);
   const [gameTime, setGameTime] = useState(0);
 
   // Start game automatically
@@ -41,13 +40,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
   const handleCardSelect = (card: GameCardType, playerId: number) => {
     if (gameState.phase !== 'playing' || !isCurrentPlayerTurn(playerId)) return;
     
-    setSelectedCard(selectedCard?.id === card.id ? null : card);
-  };
-
-  const handlePassCard = () => {
-    if (selectedCard && currentPlayer) {
-      passCard(selectedCard, currentPlayer.id);
-      setSelectedCard(null);
+    // Automatically pass the card when clicked
+    const player = gameState.players.find(p => p.id === playerId);
+    if (player) {
+      passCard(card, playerId);
     }
   };
 
@@ -242,29 +238,17 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
                     item={card.item}
                     category={card.category}
                     isFlipped={true}
-                    isSelected={selectedCard?.id === card.id}
-                    isPassable={isCurrentPlayerTurn(player.id) && selectedCard?.id === card.id}
+                    isSelected={false}
+                    isPassable={isCurrentPlayerTurn(player.id)}
                     onClick={() => handleCardSelect(card, player.id)}
                     animationDelay={cardIndex * 150}
                     className={cn(
-                      isCurrentPlayerTurn(player.id) ? "cursor-pointer" : "cursor-not-allowed opacity-75"
+                      isCurrentPlayerTurn(player.id) ? "cursor-pointer hover:scale-105 transition-transform" : "cursor-not-allowed opacity-75"
                     )}
                   />
                 ))}
               </div>
 
-              {/* Pass Card Button */}
-              {isCurrentPlayerTurn(player.id) && selectedCard && (
-                <div className="mt-4 text-center">
-                  <Button
-                    variant="secondary"
-                    onClick={handlePassCard}
-                    className="animate-bounce-in"
-                  >
-                    Pass "{selectedCard.item}" →
-                  </Button>
-                </div>
-              )}
             </div>
           ))}
         </div>
@@ -273,7 +257,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
         <div className="mt-6 text-center">
           <div className="inline-flex items-center gap-2 bg-muted/50 rounded-lg px-4 py-2">
             <span className="text-sm text-muted-foreground">
-              Goal: Collect 4 matching cards to form a SET and win!
+              Click any card to automatically pass it to the next player. Collect 4 matching cards to win!
             </span>
           </div>
         </div>
