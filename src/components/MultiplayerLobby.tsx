@@ -9,9 +9,10 @@ import { useToast } from '@/hooks/use-toast';
 
 interface MultiplayerLobbyProps {
   onBack: () => void;
+  onGameStart?: (roomCode: string) => void;
 }
 
-const MultiplayerLobby: React.FC<MultiplayerLobbyProps> = ({ onBack }) => {
+const MultiplayerLobby: React.FC<MultiplayerLobbyProps> = ({ onBack, onGameStart }) => {
   const [joinCode, setJoinCode] = useState('');
   const [showJoinForm, setShowJoinForm] = useState(false);
   const { 
@@ -23,9 +24,18 @@ const MultiplayerLobby: React.FC<MultiplayerLobbyProps> = ({ onBack }) => {
     createGameRoom, 
     joinGameRoom, 
     leaveGameRoom,
-    setPlayerReady 
+    setPlayerReady,
+    startGame
   } = useMultiplayerGame();
+
   const { toast } = useToast();
+
+  // Auto-navigate to game when it starts
+  React.useEffect(() => {
+    if (gameRoom?.status === 'playing' && onGameStart) {
+      onGameStart(gameRoom.room_code);
+    }
+  }, [gameRoom?.status, gameRoom?.room_code, onGameStart]);
 
   const handleCreateRoom = async () => {
     const room = await createGameRoom();
@@ -234,7 +244,11 @@ const MultiplayerLobby: React.FC<MultiplayerLobbyProps> = ({ onBack }) => {
               {isHost && players.length >= 2 && players.every(p => p.is_ready) && (
                 <div className="space-y-2">
                   <p className="text-sm text-muted-foreground">All players are ready!</p>
-                  <Button size="lg" className="font-semibold">
+                  <Button 
+                    size="lg" 
+                    className="font-semibold"
+                    onClick={() => startGame('Animals')}
+                  >
                     Start Game
                   </Button>
                 </div>

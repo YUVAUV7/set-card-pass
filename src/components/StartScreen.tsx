@@ -1,21 +1,23 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, BookOpen, Settings, LogOut, User } from 'lucide-react';
+import { Play, BookOpen, Settings, LogOut, User, Users } from 'lucide-react';
 import setLogo from '@/assets/set-logo.jpg';
 import { useAuth } from '@/hooks/useAuth';
 
 interface StartScreenProps {
   onStartGame: () => void;
+  onStartMultiplayer: () => void;
   onShowRules: () => void;
   onShowSettings: () => void;
   onExit: () => void;
 }
 
-const StartScreen: React.FC<StartScreenProps> = ({
-  onStartGame,
-  onShowRules,
-  onShowSettings,
-  onExit
+const StartScreen: React.FC<StartScreenProps> = ({ 
+  onStartGame, 
+  onStartMultiplayer,
+  onShowRules, 
+  onShowSettings, 
+  onExit 
 }) => {
   const { user, signOut } = useAuth();
 
@@ -50,7 +52,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
           )}
         </div>
 
-        {/* Menu Buttons */}
+         {/* Menu Buttons */}
         <div className="space-y-4">
           <Button
             variant="game"
@@ -60,7 +62,18 @@ const StartScreen: React.FC<StartScreenProps> = ({
             style={{ animationDelay: '0.1s' }}
           >
             <Play className="w-6 h-6" />
-            Play Game
+            Single Player
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={onStartMultiplayer}
+            className="w-full h-14 text-lg animate-bounce-in border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            style={{ animationDelay: '0.15s' }}
+          >
+            <Users className="w-6 h-6" />
+            Multiplayer
           </Button>
 
           <Button
