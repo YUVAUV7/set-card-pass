@@ -46,7 +46,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
         if (randomCard) {
           passCard(randomCard, current.id);
         }
-      }, 800);
+      }, 3000);
       return () => clearTimeout(timeout);
     }
   }, [gameState.phase, gameState.currentTurn, gameState.players, passCard]);
