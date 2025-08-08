@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Timer, Users, Crown, CheckCircle, ArrowRight } from 'lucide-react';
 import { useMultiplayerGame } from '@/hooks/useMultiplayerGame';
+import { HowToPlay } from '@/components/HowToPlay';
 import GameCard from './GameCard';
 
 interface MultiplayerGameBoardProps {
@@ -193,6 +194,23 @@ const MultiplayerGameBoard: React.FC<MultiplayerGameBoardProps> = ({ roomCode, o
                     </span>
                   </div>
                 )}
+
+                <HowToPlay
+                  mode="Multiplayer"
+                  category={gameRoom.category || undefined}
+                  turnDirection={gameRoom.turn_direction as 'clockwise' | 'counterclockwise' | undefined}
+                  players={[...players]
+                    .sort((a, b) => a.player_position - b.player_position)
+                    .map((p) => ({
+                      name: p.username || 'Player',
+                      cards: getPlayerHand(p).length,
+                      isYou: currentPlayer ? p.user_id === currentPlayer.user_id : false,
+                      isHost: gameRoom.host_user_id === p.user_id,
+                      position: p.player_position,
+                    }))}
+                  triggerVariant="outline"
+                  triggerSize="sm"
+                />
                 
                 <Button variant="ghost" onClick={leaveGameRoom}>
                   Leave Game

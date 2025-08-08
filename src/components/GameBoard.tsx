@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Trophy, Clock, Users, Zap } from 'lucide-react';
 import GameCard from './GameCard';
 import BotRing from './BotRing';
+import { HowToPlay } from '@/components/HowToPlay';
 import { useGameLogic } from '@/hooks/useGameLogic';
 import { Player, GameCard as GameCardType } from '@/types/game';
 import { cn } from '@/lib/utils';
@@ -193,6 +194,19 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
               <Users className="w-5 h-5 text-muted-foreground" />
               <span className="text-foreground">{gameState.players.length} Players</span>
             </div>
+            <HowToPlay
+              mode="Single Player"
+              category={category}
+              turnDirection={gameState.turnDirection}
+              players={gameState.players.map(p => ({
+                name: p.name,
+                cards: p.hand.length,
+                isYou: !p.isBot,
+                position: p.id,
+              }))}
+              triggerVariant="outline"
+              triggerSize="sm"
+            />
           </div>
         </div>
 
