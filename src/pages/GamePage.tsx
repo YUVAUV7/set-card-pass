@@ -18,6 +18,7 @@ interface SetupPlayer {
   id: number;
   name: string;
   selectedItem: string;
+  isBot?: boolean;
 }
 
 type GameScreen = 'start' | 'category' | 'setup' | 'game' | 'multiplayer-lobby' | 'multiplayer-game';

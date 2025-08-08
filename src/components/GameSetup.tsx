@@ -16,6 +16,7 @@ interface SetupPlayer {
   id: number;
   name: string;
   selectedItem: string;
+  isBot?: boolean;
 }
 
 interface GameSetupProps {
@@ -38,19 +39,19 @@ const GameSetup: React.FC<GameSetupProps> = ({
     return emailUsername.charAt(0).toUpperCase() + emailUsername.slice(1);
   };
 
-  const [players, setPlayers] = useState<SetupPlayer[]>([
-    { id: 1, name: '', selectedItem: '' },
-    { id: 2, name: '', selectedItem: '' },
-    { id: 3, name: '', selectedItem: '' },
-    { id: 4, name: '', selectedItem: '' }
-  ]);
+const [players, setPlayers] = useState<SetupPlayer[]>([
+  { id: 1, name: '', selectedItem: '', isBot: false },
+  { id: 2, name: '', selectedItem: '', isBot: true },
+  { id: 3, name: '', selectedItem: '', isBot: true },
+  { id: 4, name: '', selectedItem: '', isBot: true }
+]);
 
   // Auto-populate player names when component mounts
   useEffect(() => {
     const displayName = getUserDisplayName();
     setPlayers(prev => prev.map((player, index) => ({
       ...player,
-      name: `${displayName} ${index + 1}`
+      name: index === 0 ? displayName : `Bot ${index + 1}`
     })));
   }, [user]);
 
@@ -60,8 +61,8 @@ const GameSetup: React.FC<GameSetupProps> = ({
     ));
   };
 
-  const canStartGame = players.every(p => p.selectedItem.length > 0) && 
-                      new Set(players.map(p => p.selectedItem)).size === 4;
+  const canStartGame = !!players.find(p => p.id === 1)?.selectedItem;
+
 
   const usedItems = players.map(p => p.selectedItem).filter(Boolean);
 
@@ -99,14 +100,14 @@ const GameSetup: React.FC<GameSetupProps> = ({
         {/* Item Selection Step */}
         <div className="animate-slide-in">
           <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
-            Choose Your Items
+            Choose Your Item
           </h2>
           <p className="text-center text-muted-foreground mb-8">
-            Each player must choose a different item from {category.name}
+            Pick one item from {category.name}. The 3 bots will auto-pick different items.
           </p>
           
           <div className="space-y-6 mb-8">
-            {players.map((player) => (
+            {players.filter(p => !p.isBot).map((player) => (
               <div
                 key={player.id}
                 className="bg-card border border-border rounded-xl p-6 shadow-card"
@@ -116,14 +117,11 @@ const GameSetup: React.FC<GameSetupProps> = ({
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {category.items.map((item) => {
-                    const isUsed = usedItems.includes(item) && player.selectedItem !== item;
                     const isSelected = player.selectedItem === item;
-                    
                     return (
                       <Button
                         key={item}
                         variant={isSelected ? "default" : "category"}
-                        disabled={isUsed}
                         onClick={() => handleItemSelect(player.id, item)}
                         className={cn(
                           "h-12 text-sm",
@@ -145,7 +143,17 @@ const GameSetup: React.FC<GameSetupProps> = ({
           <Button
             variant="game"
             size="lg"
-            onClick={() => onStartGame(players)}
+            onClick={() => {
+              const human = players.find(p => !p.isBot);
+              if (!human || !human.selectedItem) return;
+              const remaining = category.items.filter(i => i !== human.selectedItem);
+              const botPlayers = players.filter(p => p.isBot);
+              const assignedBots = botPlayers.map((bot, idx) => ({
+                ...bot,
+                selectedItem: remaining[idx] ?? remaining[0] ?? category.items[0]
+              }));
+              onStartGame([human, ...assignedBots]);
+            }}
             disabled={!canStartGame}
             className="px-8"
           >

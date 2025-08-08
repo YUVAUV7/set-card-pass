@@ -13,6 +13,7 @@ export interface Player {
   matchingCards: number;
   hasSet: boolean;
   rank?: number;
+  isBot?: boolean;
 }
 
 export interface GameCard {

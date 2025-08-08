@@ -34,6 +34,22 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
     }
   }, [gameState.phase, gameState.gameStartTime]);
 
+  // Bot autoplay: if it's a bot's turn, auto-pass a random card
+  useEffect(() => {
+    if (gameState.phase !== 'playing') return;
+    const current = gameState.players.find(p => p.id === gameState.currentTurn);
+    if (current && current.isBot) {
+      const timeout = setTimeout(() => {
+        const hand = current.hand;
+        const randomCard = hand[Math.floor(Math.random() * hand.length)];
+        if (randomCard) {
+          passCard(randomCard, current.id);
+        }
+      }, 800);
+      return () => clearTimeout(timeout);
+    }
+  }, [gameState.phase, gameState.currentTurn, gameState.players, passCard]);
+
   const currentPlayer = gameState.players.find(p => p.id === gameState.currentTurn);
   const isCurrentPlayerTurn = (playerId: number) => playerId === gameState.currentTurn;
 
@@ -191,7 +207,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
 
         {/* Game Board Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {gameState.players.map((player, playerIndex) => (
+          {gameState.players.filter(p => !p.isBot).map((player, playerIndex) => (
             <div
               key={player.id}
               className={cn(
