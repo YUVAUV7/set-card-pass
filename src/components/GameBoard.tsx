@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Trophy, Clock, Users, Zap } from 'lucide-react';
 import GameCard from './GameCard';
+import BotRing from './BotRing';
 import { useGameLogic } from '@/hooks/useGameLogic';
 import { Player, GameCard as GameCardType } from '@/types/game';
 import { cn } from '@/lib/utils';
@@ -205,7 +206,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
           </div>
         </div>
 
-        {/* Game Board Grid */}
+        <BotRing bots={gameState.players.filter(p => p.isBot)} currentTurn={gameState.currentTurn} />
+
+        {/* Your Hand */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {gameState.players.filter(p => !p.isBot).map((player, playerIndex) => (
             <div
