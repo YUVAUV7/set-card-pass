@@ -72,7 +72,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
 
 
   return (
-    <div className="min-h-screen bg-gradient-background p-4">
+    <div className="min-h-screen bg-gradient-background p-3 sm:p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -85,13 +85,13 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
         </div>
 
         {/* Category Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
           {categories.map((category) => (
             <div
               key={category.name}
               className={cn(
-                "relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300",
-                "hover:scale-105 hover:shadow-card-hover",
+                "relative p-4 sm:p-5 rounded-lg border cursor-pointer transition-all duration-200",
+                "hover:scale-[1.02] hover:shadow-card-hover",
                 selectedCategory?.name === category.name
                   ? "border-primary shadow-glow"
                   : "border-border",
@@ -100,8 +100,8 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               onClick={() => handleCategoryClick(category)}
             >
               <div className="text-center">
-                <div className="text-6xl mb-4">{category.icon}</div>
-                <h3 className="text-2xl font-bold text-card-foreground capitalize mb-2">
+                <div className="text-4xl sm:text-5xl mb-2">{category.icon}</div>
+                <h3 className="text-lg sm:text-xl font-semibold text-card-foreground capitalize">
                   {category.name}
                 </h3>
               </div>
