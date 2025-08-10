@@ -26,6 +26,8 @@ interface HowToPlayProps {
   rules?: string[];
   triggerVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "game" | "category";
   triggerSize?: "default" | "sm" | "lg" | "icon";
+  triggerClassName?: string;
+  triggerStyle?: React.CSSProperties;
 }
 
 const defaultRules = (turnDirection?: string) => [
@@ -43,13 +45,15 @@ export const HowToPlay: React.FC<HowToPlayProps> = ({
   rules,
   triggerVariant = "outline",
   triggerSize = "sm",
+  triggerClassName,
+  triggerStyle,
 }) => {
   const rulesToShow = rules && rules.length > 0 ? rules : defaultRules(turnDirection);
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant={triggerVariant} size={triggerSize} className="gap-2">
+        <Button variant={triggerVariant} size={triggerSize} className={`gap-2 ${triggerClassName || ""}`} style={triggerStyle}>
           <HelpCircle className="w-4 h-4" />
           How to Play
         </Button>

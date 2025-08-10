@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, BookOpen, Settings, LogOut, User, Users } from 'lucide-react';
+import { Play, Settings, LogOut, User, Users } from 'lucide-react';
 import setLogo from '@/assets/set-logo.jpg';
+import { HowToPlay } from '@/components/HowToPlay';
 import { useAuth } from '@/hooks/useAuth';
 
 interface StartScreenProps {
@@ -76,16 +77,19 @@ const StartScreen: React.FC<StartScreenProps> = ({
             Multiplayer
           </Button>
 
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={onShowRules}
-            className="w-full h-12 animate-bounce-in"
-            style={{ animationDelay: '0.2s' }}
-          >
-            <BookOpen className="w-5 h-5" />
-            How to Play
-          </Button>
+          <HowToPlay
+            mode="Single Player"
+            players={[
+              { name: "You", cards: 0, isYou: true, position: 1 },
+              { name: "Bot A", cards: 0, position: 2 },
+              { name: "Bot B", cards: 0, position: 3 },
+              { name: "Bot C", cards: 0, position: 4 },
+            ]}
+            triggerVariant="outline"
+            triggerSize="lg"
+            triggerClassName="w-full h-12 animate-bounce-in"
+            triggerStyle={{ animationDelay: '0.2s' }}
+          />
 
           <Button
             variant="outline"
