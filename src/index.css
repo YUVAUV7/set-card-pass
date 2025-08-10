@@ -40,6 +40,9 @@
     --colors: 315 85% 70%;
     --fruits: 120 70% 55%;
     --vehicles: 200 90% 60%;
+    --sports: 20 95% 60%;
+    --countries: 220 85% 60%;
+    --instruments: 300 75% 65%;
 
     /* Game States */
     --success: 140 70% 55%;
@@ -59,6 +62,9 @@
     --gradient-animals: linear-gradient(135deg, hsl(var(--animals)), hsl(25 95% 75%));
     --gradient-colors: linear-gradient(135deg, hsl(var(--colors)), hsl(315 85% 80%));
     --gradient-fruits: linear-gradient(135deg, hsl(var(--fruits)), hsl(120 70% 65%));
+    --gradient-sports: linear-gradient(135deg, hsl(var(--sports)), hsl(20 95% 70%));
+    --gradient-countries: linear-gradient(135deg, hsl(var(--countries)), hsl(220 85% 70%));
+    --gradient-instruments: linear-gradient(135deg, hsl(var(--instruments)), hsl(300 75% 75%));
 
     /* Shadows & Effects */
     --shadow-card: 0 4px 20px hsl(var(--primary) / 0.15);

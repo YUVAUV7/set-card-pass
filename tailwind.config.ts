@@ -85,7 +85,10 @@ export default {
 				'gradient-background': 'var(--gradient-background)',
 				'gradient-animals': 'var(--gradient-animals)',
 				'gradient-colors': 'var(--gradient-colors)',
-				'gradient-fruits': 'var(--gradient-fruits)'
+				'gradient-fruits': 'var(--gradient-fruits)',
+				'gradient-sports': 'var(--gradient-sports)',
+				'gradient-countries': 'var(--gradient-countries)',
+				'gradient-instruments': 'var(--gradient-instruments)'
 			},
 			boxShadow: {
 				'card': 'var(--shadow-card)',
