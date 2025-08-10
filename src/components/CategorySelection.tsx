@@ -34,6 +34,24 @@ const categories: Category[] = [
     items: ['Car', 'Truck', 'Bike', 'Bus', 'Train', 'Plane', 'Boat', 'Motorcycle'],
     icon: '🚗',
     gradient: 'bg-vehicles'
+  },
+  {
+    name: 'sports',
+    items: ['Soccer', 'Basketball', 'Tennis', 'Baseball', 'Cricket', 'Rugby', 'Golf', 'Hockey'],
+    icon: '🏅',
+    gradient: 'bg-gradient-sports'
+  },
+  {
+    name: 'countries',
+    items: ['USA', 'Canada', 'Brazil', 'Germany', 'India', 'Japan', 'Australia', 'France'],
+    icon: '🌍',
+    gradient: 'bg-gradient-countries'
+  },
+  {
+    name: 'instruments',
+    items: ['Guitar', 'Piano', 'Violin', 'Drums', 'Flute', 'Saxophone', 'Trumpet', 'Cello'],
+    icon: '🎵',
+    gradient: 'bg-gradient-instruments'
   }
 ];
 
@@ -86,16 +104,6 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
                 <h3 className="text-2xl font-bold text-card-foreground capitalize mb-2">
                   {category.name}
                 </h3>
-                <div className="grid grid-cols-2 gap-2 text-sm text-card-foreground/80">
-                  {category.items.slice(0, 4).map((item) => (
-                    <div key={item} className="bg-card/20 rounded-lg px-2 py-1">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-card-foreground/60 mt-2">
-                  +{category.items.length - 4} more items
-                </p>
               </div>
             </div>
           ))}
