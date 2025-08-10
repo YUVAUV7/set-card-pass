@@ -132,14 +132,14 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
           )}
 
           {/* Final Rankings */}
-          <div className="bg-card rounded-xl border border-border p-6 shadow-card">
-            <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center">Final Rankings</h3>
+          <div className="bg-card rounded-xl border border-border p-4 sm:p-6 shadow-card">
+            <h3 className="text-xl sm:text-2xl font-bold text-card-foreground mb-6 text-center">Final Rankings</h3>
             <div className="space-y-4">
               {gameState.rankings.map((player, index) => (
                 <div
                   key={player.id}
                   className={cn(
-                    "flex items-center justify-between p-4 rounded-lg transition-all duration-300",
+                    "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-lg transition-all duration-300",
                     index === 0 ? "bg-gradient-primary text-primary-foreground shadow-glow" : "bg-muted"
                   )}
                 >
@@ -155,7 +155,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 w-full sm:w-auto overflow-x-auto pb-1 -mx-1 px-1">
                     {player.hand.map((card, cardIndex) => (
                       <GameCard
                         key={card.id}
