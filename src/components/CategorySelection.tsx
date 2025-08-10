@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Category {
@@ -46,17 +46,12 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
   onCategorySelect,
   onBack
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCategory] = useState<Category | null>(null);
 
   const handleCategoryClick = (category: Category) => {
-    setSelectedCategory(category);
+    onCategorySelect(category);
   };
 
-  const handleContinue = () => {
-    if (selectedCategory) {
-      onCategorySelect(selectedCategory);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-background p-4">
@@ -106,20 +101,6 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
           ))}
         </div>
 
-        {/* Continue Button */}
-        {selectedCategory && (
-          <div className="text-center animate-bounce-in">
-            <Button
-              variant="game"
-              size="lg"
-              onClick={handleContinue}
-              className="px-8"
-            >
-              Continue with {selectedCategory.name}
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );
