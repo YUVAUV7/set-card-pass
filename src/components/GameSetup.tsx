@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, ArrowRight, User } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -56,15 +56,27 @@ const [players, setPlayers] = useState<SetupPlayer[]>([
   }, [user]);
 
   const handleItemSelect = (playerId: number, item: string) => {
+    // Update local state for visual feedback
     setPlayers(prev => prev.map(p => 
       p.id === playerId ? { ...p, selectedItem: item } : p
     ));
+
+    // Auto-assign bots and start the game immediately
+    const humanBase = players.find(p => !p.isBot);
+    if (!humanBase) return;
+
+    const human = { ...humanBase, selectedItem: item };
+    const remaining = category.items.filter(i => i !== item);
+    const botPlayers = players.filter(p => p.isBot);
+    const assignedBots = botPlayers.map((bot, idx) => ({
+      ...bot,
+      selectedItem: remaining[idx] ?? remaining[0] ?? category.items[0]
+    }));
+
+    // Defer to next tick to avoid state update conflicts
+    setTimeout(() => onStartGame([human, ...assignedBots]), 0);
   };
 
-  const canStartGame = !!players.find(p => p.id === 1)?.selectedItem;
-
-
-  const usedItems = players.map(p => p.selectedItem).filter(Boolean);
 
   return (
     <div className="min-h-screen bg-gradient-background p-4">
@@ -138,29 +150,6 @@ const [players, setPlayers] = useState<SetupPlayer[]>([
           </div>
         </div>
 
-        {/* Start Game Button */}
-        <div className="text-center">
-          <Button
-            variant="game"
-            size="lg"
-            onClick={() => {
-              const human = players.find(p => !p.isBot);
-              if (!human || !human.selectedItem) return;
-              const remaining = category.items.filter(i => i !== human.selectedItem);
-              const botPlayers = players.filter(p => p.isBot);
-              const assignedBots = botPlayers.map((bot, idx) => ({
-                ...bot,
-                selectedItem: remaining[idx] ?? remaining[0] ?? category.items[0]
-              }));
-              onStartGame([human, ...assignedBots]);
-            }}
-            disabled={!canStartGame}
-            className="px-8"
-          >
-            Start Game!
-            <ArrowRight className="w-5 h-5" />
-          </Button>
-        </div>
       </div>
     </div>
   );
