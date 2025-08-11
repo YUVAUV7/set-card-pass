@@ -172,11 +172,34 @@ export const useGameLogic = (initialPlayers: Player[], category: string) => {
     }));
   }, []);
 
+  const endByTimer = useCallback(() => {
+    setGameState(prev => {
+      if (prev.phase !== 'playing') return prev;
+
+      // Ensure players have up-to-date matching/hasSet values
+      const updatedPlayers = prev.players.map(p => {
+        const { matchingCards, hasSet } = checkPlayerSet(p);
+        return { ...p, matchingCards, hasSet };
+      });
+
+      // Determine provisional winner by current standings
+      const provisionalSorted = [...updatedPlayers].sort((a, b) => {
+        if (a.hasSet && !b.hasSet) return -1;
+        if (!a.hasSet && b.hasSet) return 1;
+        return b.matchingCards - a.matchingCards;
+      });
+
+      const winner = provisionalSorted[0];
+      return endGame(updatedPlayers, winner);
+    });
+  }, []);
+
   return {
     gameState,
     dealCards,
     passCard,
     declareSet,
-    resetGame
+    resetGame,
+    endByTimer
   };
 };

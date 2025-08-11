@@ -16,7 +16,7 @@ interface GameBoardProps {
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
-  const { gameState, dealCards, passCard, declareSet, resetGame } = useGameLogic(players, category);
+  const { gameState, dealCards, passCard, declareSet, resetGame, endByTimer } = useGameLogic(players, category);
   const [gameTime, setGameTime] = useState(0);
 
   // Start game automatically
@@ -26,15 +26,19 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
     }
   }, [gameState.phase, dealCards]);
 
-  // Game timer
+  // Game timer with 3-minute cap
   useEffect(() => {
     if (gameState.phase === 'playing') {
       const interval = setInterval(() => {
-        setGameTime(Math.floor((Date.now() - gameState.gameStartTime) / 1000));
+        const elapsed = Math.floor((Date.now() - gameState.gameStartTime) / 1000);
+        setGameTime(elapsed);
+        if (elapsed >= 180) {
+          endByTimer();
+        }
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [gameState.phase, gameState.gameStartTime]);
+  }, [gameState.phase, gameState.gameStartTime, endByTimer]);
 
   // Bot autoplay: if it's a bot's turn, auto-pass a random card
   useEffect(() => {
@@ -188,7 +192,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ category, players, onBack }) => {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-muted-foreground" />
-              <span className="font-mono text-lg text-foreground">{formatTime(gameTime)}</span>
+              <span className="font-mono text-lg text-foreground">{formatTime(Math.max(0, 180 - gameTime))}</span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="w-5 h-5 text-muted-foreground" />
