@@ -1,6 +1,36 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
+// Sports images
+import soccerImg from '@/assets/items/sports/soccer.svg';
+import basketballImg from '@/assets/items/sports/basketball.svg';
+import tennisImg from '@/assets/items/sports/tennis.svg';
+import baseballImg from '@/assets/items/sports/baseball.svg';
+import cricketImg from '@/assets/items/sports/cricket.svg';
+import rugbyImg from '@/assets/items/sports/rugby.svg';
+import golfImg from '@/assets/items/sports/golf.svg';
+import hockeyImg from '@/assets/items/sports/hockey.svg';
+
+// Country flags
+import usFlag from '@/assets/items/countries/us.svg';
+import caFlag from '@/assets/items/countries/ca.svg';
+import brFlag from '@/assets/items/countries/br.svg';
+import deFlag from '@/assets/items/countries/de.svg';
+import inFlag from '@/assets/items/countries/in.svg';
+import jpFlag from '@/assets/items/countries/jp.svg';
+import auFlag from '@/assets/items/countries/au.svg';
+import frFlag from '@/assets/items/countries/fr.svg';
+
+// Instruments images
+import guitarImg from '@/assets/items/instruments/guitar.svg';
+import pianoImg from '@/assets/items/instruments/piano.svg';
+import violinImg from '@/assets/items/instruments/violin.svg';
+import drumsImg from '@/assets/items/instruments/drums.svg';
+import fluteImg from '@/assets/items/instruments/flute.svg';
+import saxophoneImg from '@/assets/items/instruments/saxophone.svg';
+import trumpetImg from '@/assets/items/instruments/trumpet.svg';
+import celloImg from '@/assets/items/instruments/cello.svg';
+
 interface GameCardProps {
   item: string;
   category: string;
@@ -37,6 +67,9 @@ const GameCard: React.FC<GameCardProps> = ({
     colors: 'bg-gradient-colors', 
     fruits: 'bg-gradient-fruits',
     vehicles: 'bg-vehicles',
+    sports: 'bg-gradient-sports',
+    countries: 'bg-gradient-countries',
+    instruments: 'bg-gradient-instruments',
     default: 'bg-gradient-card'
   };
 
@@ -63,8 +96,39 @@ const GameCard: React.FC<GameCardProps> = ({
     'Train': '🚂', 'Plane': '✈️', 'Boat': '🚤', 'Motorcycle': '🏍️'
   };
 
+  const itemImages: Record<string, string> = {
+    // Sports
+    'Soccer': soccerImg,
+    'Basketball': basketballImg,
+    'Tennis': tennisImg,
+    'Baseball': baseballImg,
+    'Cricket': cricketImg,
+    'Rugby': rugbyImg,
+    'Golf': golfImg,
+    'Hockey': hockeyImg,
+    // Countries
+    'USA': usFlag,
+    'Canada': caFlag,
+    'Brazil': brFlag,
+    'Germany': deFlag,
+    'India': inFlag,
+    'Japan': jpFlag,
+    'Australia': auFlag,
+    'France': frFlag,
+    // Instruments
+    'Guitar': guitarImg,
+    'Piano': pianoImg,
+    'Violin': violinImg,
+    'Drums': drumsImg,
+    'Flute': fluteImg,
+    'Saxophone': saxophoneImg,
+    'Trumpet': trumpetImg,
+    'Cello': celloImg,
+  };
+
   const gradient = categoryGradients[category as keyof typeof categoryGradients] || categoryGradients.default;
   const icon = itemIcons[item] || categoryIcons[category as keyof typeof categoryIcons] || categoryIcons.default;
+  const imageSrc = itemImages[item];
 
   return (
     <div
@@ -98,7 +162,16 @@ const GameCard: React.FC<GameCardProps> = ({
         {/* Card Front */}
         {isFlipped && !showBack && (
           <div className="text-center p-2 h-full flex flex-col justify-center">
-            <div className="text-2xl mb-1">{icon}</div>
+            {imageSrc ? (
+              <img
+                src={imageSrc}
+                alt={`${item} ${category}`}
+                className="w-8 h-8 sm:w-10 sm:h-10 object-contain mx-auto mb-1"
+                loading="lazy"
+              />
+            ) : (
+              <div className="text-2xl mb-1">{icon}</div>
+            )}
             <div className="font-bold text-card-foreground text-xs leading-tight">
               {item}
             </div>
