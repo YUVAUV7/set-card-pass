@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Trophy, Globe, Guitar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Category {
   name: string;
   items: string[];
-  icon: string;
+  icon: React.ReactNode;
   gradient: string;
 }
 
@@ -38,19 +38,19 @@ const categories: Category[] = [
   {
     name: 'sports',
     items: ['Soccer', 'Basketball', 'Tennis', 'Baseball', 'Cricket', 'Rugby', 'Golf', 'Hockey'],
-    icon: '🏅',
+    icon: <Trophy className="w-10 h-10 sm:w-12 sm:h-12 text-card-foreground" aria-label="Sports category icon" />,
     gradient: 'bg-gradient-sports'
   },
   {
     name: 'countries',
     items: ['USA', 'Canada', 'Brazil', 'Germany', 'India', 'Japan', 'Australia', 'France'],
-    icon: '🌍',
+    icon: <Globe className="w-10 h-10 sm:w-12 sm:h-12 text-card-foreground" aria-label="Countries category icon" />,
     gradient: 'bg-gradient-countries'
   },
   {
     name: 'instruments',
     items: ['Guitar', 'Piano', 'Violin', 'Drums', 'Flute', 'Saxophone', 'Trumpet', 'Cello'],
-    icon: '🎵',
+    icon: <Guitar className="w-10 h-10 sm:w-12 sm:h-12 text-card-foreground" aria-label="Instruments category icon" />,
     gradient: 'bg-gradient-instruments'
   }
 ];
