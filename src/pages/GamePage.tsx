@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StartScreen from '@/components/StartScreen';
 import CategorySelection from '@/components/CategorySelection';
 import GameSetup from '@/components/GameSetup';
@@ -28,6 +29,7 @@ const GamePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [players, setPlayers] = useState<SetupPlayer[]>([]);
   const [roomCode, setRoomCode] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleStartGame = () => {
     setCurrentScreen('category');
@@ -63,10 +65,9 @@ const GamePage: React.FC = () => {
     console.log('Show rules');
   };
 
-  const handleShowSettings = () => {
-    // TODO: Implement settings modal
-    console.log('Show settings');
-  };
+const handleShowSettings = () => {
+  navigate('/settings');
+};
 
   const handleExit = () => {
     // TODO: Implement exit logic

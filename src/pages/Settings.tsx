@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,6 +27,7 @@ const Settings: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const pageTitle = useMemo(() => "Profile Settings | SET Card Game", []);
   const pageDescription = useMemo(
@@ -180,9 +181,10 @@ const Settings: React.FC = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="block text-sm"
+                    ref={fileInputRef}
+                    className="hidden"
                   />
-                  <Button variant="secondary" disabled>
+                  <Button variant="secondary" onClick={() => fileInputRef.current?.click()} disabled={uploading}>
                     {uploading ? 'Uploading…' : 'Upload'}
                   </Button>
                 </div>
